@@ -2,7 +2,7 @@
 
 Pronounced Mo-Kapi because we all love cutesy names :D
 
-At my day job, we use the Open API specification (Version 3) to design RESTful APIs. I'm a big fan of this, as Open API
+We use the Open API specification (Version 3) to design RESTful APIs. I'm a big fan of this, as Open API
 specification gives you a lot of bang for your buck (documentation, generated code, etc), but I've found that an API
 that is well designed on paper isn't always any fun to actually _use_. The purpose of this tool is to slurp in an Open
 API Spec (Version 3) and to generate a mock server with mocked data so you can query around and see if the models and
@@ -23,7 +23,7 @@ Just run it from docker hub:
 $ docker run --rm \
 	--publish 8000:8000 \
 	--volume /my/totally/rad/spec.yml:/tmp/spec.yaml \
-	"blakfeld/mokapi" \
+	"utils/mokapi" \
 	/tmp/spec.yaml
 ```
 

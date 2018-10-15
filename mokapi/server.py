@@ -18,7 +18,7 @@ def mock_api_router(uri):
 
   matched_route = spec_server.get_route('/' + uri, HttpVerb.GET)
   if not matched_route:
-    LOGGER.warning('Unable to find a matching route for uri: %s %s', HttpVerb.GET, uri)
+    LOGGER.warning('Unable to find a matching route for uri | %s | %s', HttpVerb.GET, uri)
     bottle.abort(404, 'Not Found')
 
   LOGGER.debug('Discovered matching Route: %s', matched_route)
@@ -26,16 +26,16 @@ def mock_api_router(uri):
   count = 10
   resp = matched_route.response
   for key, value in bottle.request.query.items():
+    if key not in matched_route.query_params:
+      LOGGER.warning('Provided query param is not in the spec | %s', key)
+      continue
+
     if key == 'page':
       page = abs(int(value))
       continue
 
     if key == 'count':
       count = abs(int(value))
-      continue
-
-    if key not in matched_route.query_params:
-      LOGGER.warning('Provided query param is not in the spec: %s', key)
       continue
 
     resp = [r for r in resp if str(r.get(key)).lower() == value.lower()]
