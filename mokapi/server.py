@@ -11,14 +11,19 @@ app = bottle.Bottle()
 spec_server = None
 
 
-@app.get('/<uri:re:.*>')
+@app.route('/<uri:re:.*>', method=[v.value.upper() for v in HttpVerb])
 def mock_api_router(uri):
   if not spec_server:
     LOGGER.error('Spec Server not Initialized')
 
-  matched_route = spec_server.get_route('/' + uri, HttpVerb.GET)
+  try:
+    http_verb = HttpVerb[bottle.request.method]
+  except KeyError:
+    bottle.abort(500, 'Invalid HTTP method')
+
+  matched_route = spec_server.get_route('/' + uri, http_verb)
   if not matched_route:
-    LOGGER.warning('Unable to find a matching route for uri | %s | %s', HttpVerb.GET, uri)
+    LOGGER.warning('Unable to find a matching route for uri | %s | %s', http_verb, uri)
     bottle.abort(404, 'Not Found')
 
   LOGGER.debug('Discovered matching Route: %s', matched_route)
