@@ -45,3 +45,8 @@ $ make build  # build docker container locally
 $ make run spec_file=/my/totally/rad/spec.yml
 ```
 
+## TODO
+
+* Chaos Monkey mode.
+    * At some percentage return bad data/404.
+* Inspect requestbody.
